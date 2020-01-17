@@ -1,0 +1,50 @@
+server:
+  port: 9999
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  application:
+    name: spring-boot-admin
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka
+
+---
+spring:
+  profiles: test
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.89.151:8888/eureka
+
+---
+spring:
+  profiles: prod
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.89.151:8888/eureka

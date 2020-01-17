@@ -1,0 +1,167 @@
+spring:
+  application:
+    name: gateway_server
+  profiles:
+    active: dev
+  ##跨域设置，先设置最粗的粒度
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            maxAge: 3600
+            allowedHeaders: "*"
+  redis:
+    lettuce:
+      pool:
+        max-active: 50
+        max-idle: 8
+        min-idle: 0
+        max-wait: 3000ms
+    timeout: 3000
+  zipkin:
+    sender:
+      type: kafka
+  kafka:
+    consumer:
+      group-id: kafka_cluster
+server:
+  port: 7777
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+#eureka配置
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+
+
+
+---
+spring:
+  application:
+    name: gateway_server
+  profiles: dev
+  redis:
+    cluster:
+      max-redirects: 3
+      nodes:
+        - 172.16.89.151:7000
+        - 172.16.89.151:7001
+        - 172.16.89.152:7000
+        - 172.16.89.152:7001
+        - 172.16.89.153:7000
+        - 172.16.89.153:7001
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:
+            - 172.16.89.151:9092
+            - 172.16.89.152:9092
+            - 172.16.89.153:9092
+    kubernetes:
+      enabled: false
+  kafka:
+    bootstrap-servers:
+      - 172.16.89.151:9092
+      - 172.16.89.152:9092
+      - 172.16.89.153:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka
+
+
+
+---
+spring:
+  application:
+    name: gateway_server
+  profiles: test
+  redis:
+    cluster:
+      max-redirects: 3
+      nodes:
+        - 172.16.89.151:7000
+        - 172.16.89.151:7001
+        - 172.16.89.152:7000
+        - 172.16.89.152:7001
+        - 172.16.89.153:7000
+        - 172.16.89.153:7001
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:
+            - 172.16.89.151:9092
+            - 172.16.89.152:9092
+            - 172.16.89.153:9092
+    kubernetes:
+      enabled: false
+  kafka:
+    bootstrap-servers:
+      - 172.16.89.151:9092
+      - 172.16.89.152:9092
+      - 172.16.89.153:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.89.151:8888/eureka
+
+
+
+---
+spring:
+  application:
+    name: gateway_server
+  profiles: prod
+  redis:
+    cluster:
+      max-redirects: 3
+      nodes:
+        - 172.16.89.151:7000
+        - 172.16.89.151:7001
+        - 172.16.89.152:7000
+        - 172.16.89.152:7001
+        - 172.16.89.153:7000
+        - 172.16.89.153:7001
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:
+            - 172.16.89.151:9092
+            - 172.16.89.152:9092
+            - 172.16.89.153:9092
+    kubernetes:
+      enabled: false
+  kafka:
+    bootstrap-servers:
+      - 172.16.89.151:9092
+      - 172.16.89.152:9092
+      - 172.16.89.153:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.89.151:8888/eureka
