@@ -44,7 +44,7 @@
         <io.springfox.version>2.8.0</io.springfox.version>
         <com.github.dozermapper.version>6.2.0</com.github.dozermapper.version>
         <qiniu-java-sdk.version>7.2.18</qiniu-java-sdk.version>
-        <elasticsearch.version>7.0.0</elasticsearch.version>
+        <elasticsearch.version>7.14.0</elasticsearch.version>
         <jsoup.version>1.11.3</jsoup.version>
         <redisson.version>3.10.5</redisson.version>
     </properties>
